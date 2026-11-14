@@ -1,0 +1,63 @@
+{
+  "name": "Campus LAN",
+  "profile": "campus_lan",
+  "sites": 1,
+  "buildings": 3,
+  "endpoints": 1600,
+  "max_link_distance_m": 400,
+  "root_network": "10.10.0.0/16",
+  "subnet_count": 20,
+  "required_bandwidth_mbps": 10000,
+  "multi_site": false,
+  "cloud_boundary": false,
+  "redundancy_required": true,
+  "vlan_requirements": [
+    {
+      "vlan_id": 10,
+      "name": "ADMIN",
+      "purpose": "Administration"
+    },
+    {
+      "vlan_id": 20,
+      "name": "FACULTY",
+      "purpose": "Faculty"
+    },
+    {
+      "vlan_id": 30,
+      "name": "STUDENTS",
+      "purpose": "Students"
+    },
+    {
+      "vlan_id": 40,
+      "name": "SERVERS",
+      "purpose": "Servers"
+    },
+    {
+      "vlan_id": 99,
+      "name": "MANAGEMENT",
+      "purpose": "Network management"
+    }
+  ],
+  "subnet_requirements": [
+    {
+      "name": "ADMIN",
+      "hosts": 100
+    },
+    {
+      "name": "FACULTY",
+      "hosts": 200
+    },
+    {
+      "name": "STUDENTS",
+      "hosts": 1000
+    },
+    {
+      "name": "SERVERS",
+      "hosts": 100
+    },
+    {
+      "name": "MANAGEMENT",
+      "hosts": 50
+    }
+  ]
+}

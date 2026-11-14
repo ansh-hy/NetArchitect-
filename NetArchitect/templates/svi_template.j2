@@ -1,0 +1,28 @@
+! NetArchitect generated SVI configuration for a Layer 3 switch.
+! Each SVI gateway uses the first usable address from the VLSM allocation.
+hostname {{ hostname }}-L3-SW
+ip routing
+!
+{% for subnet in subnets if subnet.vlan_id %}
+interface Vlan{{ subnet.vlan_id }}
+ description {{ subnet.vlan_name | replace(" ", "_") | upper }}_GATEWAY
+ ip address {{ subnet.gateway }} {{ subnet.subnet_mask }}
+ no shutdown
+!
+{% endfor %}
+{% if routing.protocol == "OSPF Area 0" %}
+router ospf 1
+ router-id 1.1.1.1
+{% for subnet in subnets if subnet.vlan_id %}
+ network {{ subnet.network_address }} {{ subnet.wildcard_mask }} area 0
+{% endfor %}
+!
+{% elif routing.protocol.startswith("Multi-Area OSPF") %}
+! Multi-Area OSPF is recommended, but subnet-to-area mapping, area IDs and
+! ABR/site mapping are missing. Do not configure all subnets in Area 0 as a substitute.
+!
+{% elif routing.protocol == "eBGP" %}
+! BGP is not configured on this campus SVI template.
+!
+{% endif %}
+end

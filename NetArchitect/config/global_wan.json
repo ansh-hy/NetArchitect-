@@ -1,0 +1,59 @@
+{
+  "name": "Global WAN",
+  "profile": "global_wan",
+  "sites": 5,
+  "buildings": 4,
+  "endpoints": 2000,
+  "max_link_distance_m": 1000000,
+  "root_network": "10.30.0.0/16",
+  "subnet_count": 60,
+  "required_bandwidth_mbps": 10000,
+  "multi_site": true,
+  "cloud_boundary": true,
+  "redundancy_required": true,
+  "vlan_requirements": [
+    {
+      "vlan_id": 10,
+      "name": "IOT",
+      "purpose": "IoT devices and scanners"
+    },
+    {
+      "vlan_id": 20,
+      "name": "OPERATIONS",
+      "purpose": "Operations"
+    },
+    {
+      "vlan_id": 30,
+      "name": "SERVERS",
+      "purpose": "Local services"
+    },
+    {
+      "vlan_id": 99,
+      "name": "MANAGEMENT",
+      "purpose": "Network management"
+    }
+  ],
+  "subnet_requirements": [
+    {
+      "name": "IOT",
+      "hosts": 1500
+    },
+    {
+      "name": "OPERATIONS",
+      "hosts": 250
+    },
+    {
+      "name": "SERVERS",
+      "hosts": 150
+    },
+    {
+      "name": "MANAGEMENT",
+      "hosts": 50
+    }
+  ],
+  "vpn_required": true,
+  "routing_domains": [
+    "enterprise",
+    "cloud"
+  ]
+}

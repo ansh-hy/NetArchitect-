@@ -1,0 +1,56 @@
+{
+  "name": "Metro MAN",
+  "profile": "metro_man",
+  "sites": 3,
+  "buildings": 3,
+  "endpoints": 450,
+  "max_link_distance_m": 35000,
+  "root_network": "10.20.0.0/16",
+  "subnet_count": 18,
+  "required_bandwidth_mbps": 10000,
+  "multi_site": true,
+  "cloud_boundary": false,
+  "redundancy_required": true,
+  "vlan_requirements": [
+    {
+      "vlan_id": 10,
+      "name": "HQ-USERS",
+      "purpose": "Headquarters users"
+    },
+    {
+      "vlan_id": 20,
+      "name": "REMOTE-USERS",
+      "purpose": "Remote users"
+    },
+    {
+      "vlan_id": 30,
+      "name": "FINTECH",
+      "purpose": "FinTech services"
+    },
+    {
+      "vlan_id": 99,
+      "name": "MANAGEMENT",
+      "purpose": "Network management"
+    }
+  ],
+  "subnet_requirements": [
+    {
+      "name": "HQ-USERS",
+      "hosts": 250
+    },
+    {
+      "name": "REMOTE-USERS",
+      "hosts": 150
+    },
+    {
+      "name": "FINTECH",
+      "hosts": 40
+    },
+    {
+      "name": "MANAGEMENT",
+      "hosts": 10
+    }
+  ],
+  "latency_target_ms": 5,
+  "connectivity": "EVPL"
+}

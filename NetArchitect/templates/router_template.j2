@@ -1,0 +1,24 @@
+! NetArchitect generated edge-router baseline
+! Physical interface addresses, ISP handoff, NAT and WAN routing are omitted
+! until interface inventory, addressing and provider parameters are supplied.
+hostname {{ hostname }}-R1
+!
+{% if routing.protocol == "OSPF Area 0" %}
+! Campus VLAN gateways are generated on the Layer 3 switch in svis.cfg.
+! Configure OSPF on that gateway switch for the connected SVI networks.
+! This edge router requires a defined routed transit link before OSPF can be enabled.
+!
+{% elif routing.protocol.startswith("Multi-Area OSPF") %}
+! Multi-Area OSPF selected by the decision engine.
+! Configuration withheld until subnet-to-area mapping, ABR placement,
+! router IDs and routed transit interfaces are supplied.
+!
+{% elif routing.protocol == "eBGP" %}
+! eBGP configuration intentionally withheld: local/peer ASNs, neighbor IP,
+! address-family, route policy and provider requirements are not in the input.
+!
+{% else %}
+! Routing requires design review; no protocol configuration generated.
+!
+{% endif %}
+end

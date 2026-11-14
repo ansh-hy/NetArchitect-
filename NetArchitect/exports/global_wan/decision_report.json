@@ -1,0 +1,96 @@
+{
+  "scenario": "Global WAN",
+  "profile": "global_wan",
+  "decisions": [
+    {
+      "area": "Physical media",
+      "selection": "OS2 Single-Mode Fiber with OS2 + optical transport/regeneration",
+      "input_basis": "Maximum supplied link distance: 1e+06 m",
+      "rationale": "OS2 single-mode fiber is recommended because 1e+06 m exceeds the assignment's 400 m OM4 band. For this distance, a single 10GBASE-LR/ER optic pair is not a direct-span solution; use a carrier/optical transport design with engineered regeneration/amplification and a verified end-to-end loss budget.",
+      "transceiver_rationale": "10GBASE-T is the copper PHY; 10GBASE-SR uses short-reach multimode optics (850 nm); 10GBASE-LR/ER are single-mode reach classes whose exact choice depends on distance and the calculated optical loss budget.",
+      "reference": "IEEE 802.3 (10GBASE-LR/ER; transport engineering required beyond optic reach)"
+    },
+    {
+      "area": "Topology",
+      "selection": "Distributed enterprise WAN with cloud connectivity",
+      "input_basis": "Profile=global_wan; sites=5; buildings=4; endpoints=2000; average endpoints/building=500.00",
+      "rationale": "Four cities and a cloud VPC require distributed WAN connectivity, explicit routing boundaries and secure inter-site connectivity.",
+      "tier_rationale": "Campus: core/distribution/access separates backbone, aggregation and endpoint access. Metro: provider Ethernet links connect HQ and remote sites with diverse paths where available. Global: distributed WAN routing connects city networks and the cloud routing domain.",
+      "reference": "Assignment scenario; IEEE 802.1Q (VLAN tagging) and IEEE 802.1w (RSTP) where applicable"
+    },
+    {
+      "area": "Routing",
+      "selection": "Multi-Area OSPF (internal) with eBGP where an external AS boundary exists",
+      "input_basis": "Subnets=60; multi_site=True; cloud_boundary=True",
+      "rationale": "The multi-site or cloud-boundary condition requires a scalable routing design. Use Multi-Area OSPF inside the enterprise routing domain; use eBGP only across a genuine external autonomous-system boundary.",
+      "reference": "RFC 2328 (OSPFv2); RFC 4271 (BGP-4) where an external AS peering exists"
+    },
+    {
+      "area": "Redundancy",
+      "selection": "Redundant WAN/VPN paths",
+      "input_basis": "Redundancy requested=True",
+      "rationale": "Resiliency was requested for global wan; alternate connectivity and an explicit failover test plan are recommended.",
+      "reference": "Assignment resiliency scenario requirements"
+    },
+    {
+      "area": "Route summarization",
+      "selection": "Site-specific aggregate prefixes required within 10.30.0.0/16",
+      "input_basis": "Multi-site=True; cloud boundary=True; root pool=10.30.0.0/16",
+      "rationale": "Summarization reduces inter-domain route table size, but the input only supplies one overall address pool and no site-to-prefix allocation. A safe per-site summary cannot be emitted until non-overlapping site aggregates and route ownership are defined.",
+      "reference": "Assignment Global WAN requirement: route summarization"
+    },
+    {
+      "area": "VLAN segmentation",
+      "selection": "4 validated VLANs",
+      "input_basis": "VLAN 10 IOT, VLAN 20 OPERATIONS, VLAN 30 SERVERS, VLAN 99 MANAGEMENT",
+      "rationale": "VLANs are taken from the scenario's explicit segmentation requirements; unique IDs and names are validated.",
+      "reference": "IEEE 802.1Q"
+    },
+    {
+      "area": "VLSM \u2013 IOT",
+      "selection": "10.30.0.0/21",
+      "input_basis": "1500 requested hosts",
+      "rationale": "Choose h=11 host bits so 2^11 - 2 >= 1500; prefix = 32 - 11 = /21. The block has 2048 addresses and 2046 conventional usable addresses. Gateway is first usable 10.30.0.1; utilization = 1500/2046 x 100 = 73.31%.",
+      "reference": "RFC 950 (Internet Standard Subnetting Procedure); RFC 4632 (CIDR); IPv4 network/broadcast reservation for conventional LAN subnets"
+    },
+    {
+      "area": "VLSM \u2013 OPERATIONS",
+      "selection": "10.30.8.0/24",
+      "input_basis": "250 requested hosts",
+      "rationale": "Choose h=8 host bits so 2^8 - 2 >= 250; prefix = 32 - 8 = /24. The block has 256 addresses and 254 conventional usable addresses. Gateway is first usable 10.30.8.1; utilization = 250/254 x 100 = 98.43%.",
+      "reference": "RFC 950 (Internet Standard Subnetting Procedure); RFC 4632 (CIDR); IPv4 network/broadcast reservation for conventional LAN subnets"
+    },
+    {
+      "area": "VLSM \u2013 SERVERS",
+      "selection": "10.30.9.0/24",
+      "input_basis": "150 requested hosts",
+      "rationale": "Choose h=8 host bits so 2^8 - 2 >= 150; prefix = 32 - 8 = /24. The block has 256 addresses and 254 conventional usable addresses. Gateway is first usable 10.30.9.1; utilization = 150/254 x 100 = 59.06%.",
+      "reference": "RFC 950 (Internet Standard Subnetting Procedure); RFC 4632 (CIDR); IPv4 network/broadcast reservation for conventional LAN subnets"
+    },
+    {
+      "area": "VLSM \u2013 MANAGEMENT",
+      "selection": "10.30.10.0/26",
+      "input_basis": "50 requested hosts",
+      "rationale": "Choose h=6 host bits so 2^6 - 2 >= 50; prefix = 32 - 6 = /26. The block has 64 addresses and 62 conventional usable addresses. Gateway is first usable 10.30.10.1; utilization = 50/62 x 100 = 80.65%.",
+      "reference": "RFC 950 (Internet Standard Subnetting Procedure); RFC 4632 (CIDR); IPv4 network/broadcast reservation for conventional LAN subnets"
+    }
+  ],
+  "topology_caveats": [
+    "Exact hub/mesh design depends on traffic and provider requirements.",
+    "IPsec and cloud routing parameters must be supplied."
+  ],
+  "routing_caveats": [
+    "The assignment allows Multi-Area OSPF or eBGP for this condition; the precise choice depends on whether the peer is in the same or a different AS."
+  ],
+  "redundancy_actions": [
+    "Provide redundant WAN or VPN termination where supported.",
+    "Define routing convergence and failover policy.",
+    "Test tunnel failure and alternate-path recovery."
+  ],
+  "engineering_assumptions": [
+    "VLSM gateway policy is first usable IPv4 address.",
+    "Conventional LAN subnetting reserves network and broadcast addresses.",
+    "Media distance bands follow the assignment; final optics require compatibility and optical-budget verification.",
+    "Recommendations are design outputs and do not prove live network performance."
+  ]
+}

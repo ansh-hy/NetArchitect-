@@ -1,0 +1,16 @@
+! NetArchitect IPsec VPN configuration planning artifact
+{% if scenario_vpn_required %}
+! VPN is required by this scenario. Complete these deployment inputs first:
+! - Local and remote peer public IP addresses
+! - IKE version, encryption/integrity/DH proposals and lifetime
+! - Authentication method and securely provisioned credentials
+! - Local/remote protected prefixes and NAT-exemption policy
+! - Device model / IOS feature support
+! No secret, peer IP or unsupported crypto command is invented here.
+!
+! Use the target Cisco platform's supported IKEv2/IPsec site-to-site syntax
+! after the above values are approved and verified in a lab.
+{% else %}
+! IPsec VPN is not required by this scenario input.
+{% endif %}
+end
