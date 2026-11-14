@@ -164,22 +164,7 @@ See `PACKET_TRACER_GNS3_GUIDE.md` for the detailed procedure.
 | `PROJECT_STATUS.md` | Integrated scope and outstanding external validation |
 | `RELEASE_NOTES.md` | Release summary |
 
-## 12. Academic submission checklist
 
-Before submitting, confirm that you have:
-
-- [ ] Uploaded the complete source repository, including `core/`, `generators/`, `templates/`, `config/`, `tests/`, `scripts/`, and `exports/`.
-- [ ] Included this README and the other project documentation.
-- [ ] Included the assignment specification PDF if permitted by your course/instructor.
-- [ ] Run the automated tests and release verification locally; saved genuine evidence.
-- [ ] Opened the application and captured screenshots of the three presets and explainable recommendations.
-- [ ] Built and saved the required Packet Tracer/GNS3 project(s), if required by the assignment.
-- [ ] Captured genuine simulator topology and verification screenshots.
-- [ ] Completed the simulator results record with actual test outputs.
-- [ ] Added required student/team details to the report or submission form (not to public files unless appropriate).
-- [ ] Checked the instructor's submission instructions for required report format, repository visibility, and naming conventions.
-
----
 
 **NetArchitect — CIC-307 Computer Networks Mini-Project**  
 For academic demonstration and review. Generated network configurations must be validated against the target simulator/device environment before deployment.
